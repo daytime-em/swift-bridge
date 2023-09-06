@@ -1,4 +1,4 @@
-public class RustVec<T: Vectorizable> {
+class RustVec<T: Vectorizable> {
     var ptr: UnsafeMutableRawPointer
     var isOwned: Bool = true
 
@@ -46,7 +46,7 @@ extension RustVec: Sequence {
     }
 }
 
-public struct RustVecIterator<T: Vectorizable>: IteratorProtocol {
+struct RustVecIterator<T: Vectorizable>: IteratorProtocol {
     var rustVec: RustVec<T>
     var index: UInt = 0
 
@@ -54,7 +54,7 @@ public struct RustVecIterator<T: Vectorizable>: IteratorProtocol {
         self.rustVec = rustVec
     }
 
-    public mutating func next() -> T.SelfRef? {
+    mutating func next() -> T.SelfRef? {
         let val = rustVec.get(index: index)
         index += 1
         return val
@@ -89,7 +89,7 @@ extension UnsafeBufferPointer {
     }
 }
 
-public protocol Vectorizable {
+protocol Vectorizable {
     associatedtype SelfRef
     associatedtype SelfRefMut
 
