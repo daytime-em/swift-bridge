@@ -29,10 +29,10 @@ mod declare_generic {
     fn expected_swift_code() -> ExpectedSwiftCode {
         ExpectedSwiftCode::ContainsAfterTrim(
             r#"
-public class SomeType<A>: SomeTypeRefMut<A> {
+class SomeType<A>: SomeTypeRefMut<A> {
     var isOwned: Bool = true
 
-    public override init(ptr: UnsafeMutableRawPointer) {
+    override init(ptr: UnsafeMutableRawPointer) {
         super.init(ptr: ptr)
     }
 
@@ -42,15 +42,15 @@ public class SomeType<A>: SomeTypeRefMut<A> {
         }
     }
 }
-public class SomeTypeRefMut<A>: SomeTypeRef<A> {
-    public override init(ptr: UnsafeMutableRawPointer) {
+class SomeTypeRefMut<A>: SomeTypeRef<A> {
+    override init(ptr: UnsafeMutableRawPointer) {
         super.init(ptr: ptr)
     }
 }
-public class SomeTypeRef<A> {
+class SomeTypeRef<A> {
     var ptr: UnsafeMutableRawPointer
 
-    public init(ptr: UnsafeMutableRawPointer) {
+    init(ptr: UnsafeMutableRawPointer) {
         self.ptr = ptr
     }
 }
@@ -109,7 +109,7 @@ mod monomorphized_generic_opaque_rust_type {
             r#"
 extension SomeType: SwiftBridgeGenericFreer
 where A == UInt32 {
-    public func rust_free() {
+    func rust_free() {
         __swift_bridge__$SomeType$u32$_free(ptr)
     }
 }
@@ -309,7 +309,7 @@ mod generic_opaque_rust_type_copy {
     fn expected_swift_code() -> ExpectedSwiftCode {
         ExpectedSwiftCode::ContainsManyAfterTrim(vec![
             r#"
-public struct SomeType<A, B> {
+struct SomeType<A, B> {
     fileprivate var bytes: SwiftBridgeGenericCopyTypeFfiRepr
 }"#,
             r#"

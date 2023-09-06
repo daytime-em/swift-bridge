@@ -4,19 +4,19 @@ use proc_macro2::Ident;
 pub(super) fn generate_vectorizable_extension(ty: &Ident) -> String {
     format!(
         r#"extension {ty}: Vectorizable {{
-    public static func vecOfSelfNew() -> UnsafeMutableRawPointer {{
+    static func vecOfSelfNew() -> UnsafeMutableRawPointer {{
         __swift_bridge__$Vec_{ty}$new()
     }}
 
-    public static func vecOfSelfFree(vecPtr: UnsafeMutableRawPointer) {{
+    static func vecOfSelfFree(vecPtr: UnsafeMutableRawPointer) {{
         __swift_bridge__$Vec_{ty}$drop(vecPtr)
     }}
 
-    public static func vecOfSelfPush(vecPtr: UnsafeMutableRawPointer, value: {ty}) {{
+    static func vecOfSelfPush(vecPtr: UnsafeMutableRawPointer, value: {ty}) {{
         __swift_bridge__$Vec_{ty}$push(vecPtr, {{value.isOwned = false; return value.ptr;}}())
     }}
 
-    public static func vecOfSelfPop(vecPtr: UnsafeMutableRawPointer) -> Optional<Self> {{
+    static func vecOfSelfPop(vecPtr: UnsafeMutableRawPointer) -> Optional<Self> {{
         let pointer = __swift_bridge__$Vec_{ty}$pop(vecPtr)
         if pointer == nil {{
             return nil
@@ -25,7 +25,7 @@ pub(super) fn generate_vectorizable_extension(ty: &Ident) -> String {
         }}
     }}
 
-    public static func vecOfSelfGet(vecPtr: UnsafeMutableRawPointer, index: UInt) -> Optional<{ty}Ref> {{
+    static func vecOfSelfGet(vecPtr: UnsafeMutableRawPointer, index: UInt) -> Optional<{ty}Ref> {{
         let pointer = __swift_bridge__$Vec_{ty}$get(vecPtr, index)
         if pointer == nil {{
             return nil
@@ -34,7 +34,7 @@ pub(super) fn generate_vectorizable_extension(ty: &Ident) -> String {
         }}
     }}
 
-    public static func vecOfSelfGetMut(vecPtr: UnsafeMutableRawPointer, index: UInt) -> Optional<{ty}RefMut> {{
+    static func vecOfSelfGetMut(vecPtr: UnsafeMutableRawPointer, index: UInt) -> Optional<{ty}RefMut> {{
         let pointer = __swift_bridge__$Vec_{ty}$get_mut(vecPtr, index)
         if pointer == nil {{
             return nil
@@ -43,11 +43,11 @@ pub(super) fn generate_vectorizable_extension(ty: &Ident) -> String {
         }}
     }}
 
-    public static func vecOfSelfAsPtr(vecPtr: UnsafeMutableRawPointer) -> UnsafePointer<{ty}Ref> {{
+    static func vecOfSelfAsPtr(vecPtr: UnsafeMutableRawPointer) -> UnsafePointer<{ty}Ref> {{
         UnsafePointer<{ty}Ref>(OpaquePointer(__swift_bridge__$Vec_{ty}$as_ptr(vecPtr)))
     }}
 
-    public static func vecOfSelfLen(vecPtr: UnsafeMutableRawPointer) -> UInt {{
+    static func vecOfSelfLen(vecPtr: UnsafeMutableRawPointer) -> UInt {{
         __swift_bridge__$Vec_{ty}$len(vecPtr)
     }}
 }}
@@ -68,19 +68,19 @@ mod tests {
     fn generates_vectorizable_extension() {
         let expected = r#"
 extension ARustType: Vectorizable {
-    public static func vecOfSelfNew() -> UnsafeMutableRawPointer {
+    static func vecOfSelfNew() -> UnsafeMutableRawPointer {
         __swift_bridge__$Vec_ARustType$new()
     }
 
-    public static func vecOfSelfFree(vecPtr: UnsafeMutableRawPointer) {
+    static func vecOfSelfFree(vecPtr: UnsafeMutableRawPointer) {
         __swift_bridge__$Vec_ARustType$drop(vecPtr)
     }
 
-    public static func vecOfSelfPush(vecPtr: UnsafeMutableRawPointer, value: ARustType) {
+    static func vecOfSelfPush(vecPtr: UnsafeMutableRawPointer, value: ARustType) {
         __swift_bridge__$Vec_ARustType$push(vecPtr, {value.isOwned = false; return value.ptr;}())
     }
 
-    public static func vecOfSelfPop(vecPtr: UnsafeMutableRawPointer) -> Optional<Self> {
+    static func vecOfSelfPop(vecPtr: UnsafeMutableRawPointer) -> Optional<Self> {
         let pointer = __swift_bridge__$Vec_ARustType$pop(vecPtr)
         if pointer == nil {
             return nil
@@ -89,7 +89,7 @@ extension ARustType: Vectorizable {
         }
     }
 
-    public static func vecOfSelfGet(vecPtr: UnsafeMutableRawPointer, index: UInt) -> Optional<ARustTypeRef> {
+    static func vecOfSelfGet(vecPtr: UnsafeMutableRawPointer, index: UInt) -> Optional<ARustTypeRef> {
         let pointer = __swift_bridge__$Vec_ARustType$get(vecPtr, index)
         if pointer == nil {
             return nil
@@ -98,7 +98,7 @@ extension ARustType: Vectorizable {
         }
     }
 
-    public static func vecOfSelfGetMut(vecPtr: UnsafeMutableRawPointer, index: UInt) -> Optional<ARustTypeRefMut> {
+    static func vecOfSelfGetMut(vecPtr: UnsafeMutableRawPointer, index: UInt) -> Optional<ARustTypeRefMut> {
         let pointer = __swift_bridge__$Vec_ARustType$get_mut(vecPtr, index)
         if pointer == nil {
             return nil
@@ -107,11 +107,11 @@ extension ARustType: Vectorizable {
         }
     }
 
-    public static func vecOfSelfAsPtr(vecPtr: UnsafeMutableRawPointer) -> UnsafePointer<ARustTypeRef> {
+    static func vecOfSelfAsPtr(vecPtr: UnsafeMutableRawPointer) -> UnsafePointer<ARustTypeRef> {
         UnsafePointer<ARustTypeRef>(OpaquePointer(__swift_bridge__$Vec_ARustType$as_ptr(vecPtr)))
     }
 
-    public static func vecOfSelfLen(vecPtr: UnsafeMutableRawPointer) -> UInt {
+    static func vecOfSelfLen(vecPtr: UnsafeMutableRawPointer) -> UInt {
         __swift_bridge__$Vec_ARustType$len(vecPtr)
     }
 }

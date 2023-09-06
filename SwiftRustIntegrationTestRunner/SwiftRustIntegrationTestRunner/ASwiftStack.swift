@@ -7,7 +7,7 @@
 
 import Foundation
 
-public class ASwiftStack {
+class ASwiftStack {
     private var stack: [UInt8] = []
     
     func push (val: UInt8) {

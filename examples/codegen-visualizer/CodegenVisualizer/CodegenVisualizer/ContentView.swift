@@ -116,7 +116,7 @@ struct GeneratedCodeView: View {
     }
 }
 
-public class GeneratedCodeHolder: ObservableObject {
+class GeneratedCodeHolder: ObservableObject {
     @Published var generatedRust = ""
     @Published var generatedSwift = ""
     @Published var generatedC = ""

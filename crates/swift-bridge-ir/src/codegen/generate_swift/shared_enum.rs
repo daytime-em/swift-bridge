@@ -96,38 +96,38 @@ impl SwiftBridgeModule {
             format!(
                 r#"
 extension {enum_name}: Vectorizable {{
-    public static func vecOfSelfNew() -> UnsafeMutableRawPointer {{
+    static func vecOfSelfNew() -> UnsafeMutableRawPointer {{
         __swift_bridge__$Vec_{enum_name}$new()
     }}
 
-    public static func vecOfSelfFree(vecPtr: UnsafeMutableRawPointer) {{
+    static func vecOfSelfFree(vecPtr: UnsafeMutableRawPointer) {{
         __swift_bridge__$Vec_{enum_name}$drop(vecPtr)
     }}
 
-    public static func vecOfSelfPush(vecPtr: UnsafeMutableRawPointer, value: Self) {{
+    static func vecOfSelfPush(vecPtr: UnsafeMutableRawPointer, value: Self) {{
         __swift_bridge__$Vec_{enum_name}$push(vecPtr, value.intoFfiRepr())
     }}
 
-    public static func vecOfSelfPop(vecPtr: UnsafeMutableRawPointer) -> Optional<Self> {{
+    static func vecOfSelfPop(vecPtr: UnsafeMutableRawPointer) -> Optional<Self> {{
         let maybeEnum = __swift_bridge__$Vec_{enum_name}$pop(vecPtr)
         return maybeEnum.intoSwiftRepr()
     }}
 
-    public static func vecOfSelfGet(vecPtr: UnsafeMutableRawPointer, index: UInt) -> Optional<Self> {{
+    static func vecOfSelfGet(vecPtr: UnsafeMutableRawPointer, index: UInt) -> Optional<Self> {{
         let maybeEnum = __swift_bridge__$Vec_{enum_name}$get(vecPtr, index)
         return maybeEnum.intoSwiftRepr()
     }}
 
-    public static func vecOfSelfGetMut(vecPtr: UnsafeMutableRawPointer, index: UInt) -> Optional<Self> {{
+    static func vecOfSelfGetMut(vecPtr: UnsafeMutableRawPointer, index: UInt) -> Optional<Self> {{
         let maybeEnum = __swift_bridge__$Vec_{enum_name}$get_mut(vecPtr, index)
         return maybeEnum.intoSwiftRepr()
     }}
 
-    public static func vecOfSelfAsPtr(vecPtr: UnsafeMutableRawPointer) -> UnsafePointer<Self> {{
+    static func vecOfSelfAsPtr(vecPtr: UnsafeMutableRawPointer) -> UnsafePointer<Self> {{
         UnsafePointer<Self>(OpaquePointer(__swift_bridge__$Vec_{enum_name}$as_ptr(vecPtr)))
     }}
 
-    public static func vecOfSelfLen(vecPtr: UnsafeMutableRawPointer) -> UInt {{
+    static func vecOfSelfLen(vecPtr: UnsafeMutableRawPointer) -> UInt {{
         __swift_bridge__$Vec_{enum_name}$len(vecPtr)
     }}
 }}"#
@@ -148,7 +148,7 @@ extension {enum_name}: CustomDebugStringConvertible {{
         };
 
         let swift_enum = format!(
-            r#"public enum {enum_name} {{{variants}}}
+            r#"enum {enum_name} {{{variants}}}
 extension {enum_name} {{
     func intoFfiRepr() -> {ffi_repr_name} {{
         switch self {{{convert_swift_to_ffi_repr}}}

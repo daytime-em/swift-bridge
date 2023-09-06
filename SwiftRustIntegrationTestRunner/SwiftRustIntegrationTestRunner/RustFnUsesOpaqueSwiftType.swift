@@ -8,7 +8,7 @@
 import Foundation
 
 /// We expose this to the `rust_function_return_swift_type.rs` test.
-public class SomeSwiftType {
+class SomeSwiftType {
     var text: String
     
     init() {

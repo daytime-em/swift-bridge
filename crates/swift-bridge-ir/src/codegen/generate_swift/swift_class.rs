@@ -51,10 +51,10 @@ fn create_class_declaration(
         };
 
         format!(
-            r#"public class {type_name}{generics}: {type_name}RefMut{generics} {{
+            r#"class {type_name}{generics}: {type_name}RefMut{generics} {{
     var isOwned: Bool = true
 
-    public override init(ptr: UnsafeMutableRawPointer) {{
+    override init(ptr: UnsafeMutableRawPointer) {{
         super.init(ptr: ptr)
     }}
 
@@ -73,8 +73,8 @@ fn create_class_declaration(
     let mut class_ref_mut_decl = {
         format!(
             r#"
-public class {type_name}RefMut{generics}: {type_name}Ref{generics} {{
-    public override init(ptr: UnsafeMutableRawPointer) {{
+class {type_name}RefMut{generics}: {type_name}Ref{generics} {{
+    override init(ptr: UnsafeMutableRawPointer) {{
         super.init(ptr: ptr)
     }}
 }}"#,
@@ -85,10 +85,10 @@ public class {type_name}RefMut{generics}: {type_name}Ref{generics} {{
     let mut class_ref_decl = {
         format!(
             r#"
-public class {type_name}Ref{generics} {{
+class {type_name}Ref{generics} {{
     var ptr: UnsafeMutableRawPointer
 
-    public init(ptr: UnsafeMutableRawPointer) {{
+    init(ptr: UnsafeMutableRawPointer) {{
         self.ptr = ptr
     }}
 }}"#,
@@ -189,7 +189,7 @@ extension {type_name}RefMut {{
             r#"
 extension {type_name}: SwiftBridgeGenericFreer
 where {swift_generic_bounds} {{
-    public func rust_free() {{
+    func rust_free() {{
         {free_func_name}(ptr)
     }}
 }}"#,
@@ -219,7 +219,7 @@ extension {ty_name}Ref: Equatable {{
             format!(
                 r#"
 extension {ty_name}Ref: Hashable{{
-    public func hash(into hasher: inout Hasher){{
+    func hash(into hasher: inout Hasher){{
         hasher.combine(__swift_bridge__${ty_name}$_hash(self.ptr))
     }}
 }}

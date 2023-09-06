@@ -406,7 +406,7 @@ mod tests {
         let generated = module.generate_swift(&CodegenConfig::no_features_enabled());
 
         let expected = r#"
-public func foo() {
+func foo() {
     __swift_bridge__$foo()
 } 
 "#;
@@ -498,7 +498,7 @@ func __swift_bridge__MyType_foo (_ this: UnsafeMutableRawPointer) -> __private__
         let generated = module.generate_swift(&CodegenConfig::no_features_enabled());
 
         let expected = r#"
-public func foo(_ bar: UInt8) {
+func foo(_ bar: UInt8) {
     __swift_bridge__$foo(bar)
 } 
 "#;
@@ -521,7 +521,7 @@ public func foo(_ bar: UInt8) {
         let generated = module.generate_swift(&CodegenConfig::no_features_enabled());
 
         let expected = r#"
-public func foo() -> UInt32 {
+func foo() -> UInt32 {
     __swift_bridge__$foo()
 } 
 "#;
@@ -619,10 +619,10 @@ func __swift_bridge__Foo_new (_ a: UInt8) -> UnsafeMutableRawPointer {
         let generated = module.generate_swift(&CodegenConfig::no_features_enabled());
 
         let expected = r#"
-public class Foo: FooRefMut {
+class Foo: FooRefMut {
     var isOwned: Bool = true
 
-    public override init(ptr: UnsafeMutableRawPointer) {
+    override init(ptr: UnsafeMutableRawPointer) {
         super.init(ptr: ptr)
     }
 
@@ -659,10 +659,10 @@ extension Foo {
         let generated = module.generate_swift(&CodegenConfig::no_features_enabled());
 
         let expected = r#"
-public class Foo: FooRefMut {
+class Foo: FooRefMut {
     var isOwned: Bool = true
 
-    public override init(ptr: UnsafeMutableRawPointer) {
+    override init(ptr: UnsafeMutableRawPointer) {
         super.init(ptr: ptr)
     }
 
@@ -730,15 +730,15 @@ func __swift_bridge__Foo_pop (_ this: UnsafeMutableRawPointer) {
         let generated = module.generate_swift(&CodegenConfig::no_features_enabled());
 
         let expected = r#"
-public class FooRef {
+class FooRef {
     var ptr: UnsafeMutableRawPointer
 
-    public init(ptr: UnsafeMutableRawPointer) {
+    init(ptr: UnsafeMutableRawPointer) {
         self.ptr = ptr
     }
 }
 extension FooRef {
-    public func bar() -> UInt8 {
+    func bar() -> UInt8 {
         __swift_bridge__$Foo$bar(ptr)
     }
 }
@@ -763,15 +763,15 @@ extension FooRef {
         let generated = module.generate_swift(&CodegenConfig::no_features_enabled());
 
         let expected = r#"
-public class FooRef {
+class FooRef {
     var ptr: UnsafeMutableRawPointer
 
-    public init(ptr: UnsafeMutableRawPointer) {
+    init(ptr: UnsafeMutableRawPointer) {
         self.ptr = ptr
     }
 }
 extension FooRef {
-    public func bar(_ other: FooRef) {
+    func bar(_ other: FooRef) {
         __swift_bridge__$Foo$bar(ptr, other.ptr)
     }
 }
@@ -797,15 +797,15 @@ extension FooRef {
         let generated = module.generate_swift(&CodegenConfig::no_features_enabled());
 
         let expected = r#"
-public class FooRef {
+class FooRef {
     var ptr: UnsafeMutableRawPointer
 
-    public init(ptr: UnsafeMutableRawPointer) {
+    init(ptr: UnsafeMutableRawPointer) {
         self.ptr = ptr
     }
 }
 extension FooRef {
-    class public func bar() {
+    class func bar() {
         __swift_bridge__$Foo$bar()
     }
 }
@@ -855,7 +855,7 @@ func __swift_bridge__Foo_bar (_ arg: UInt8) {
         let generated = module.generate_swift(&CodegenConfig::no_features_enabled());
 
         let expected = r#"
-public func foo() -> RustString {
+func foo() -> RustString {
     RustString(ptr: __swift_bridge__$foo())
 }
 "#;

@@ -2,34 +2,34 @@ class RustVec<T: Vectorizable> {
     var ptr: UnsafeMutableRawPointer
     var isOwned: Bool = true
 
-    public init(ptr: UnsafeMutableRawPointer) {
+    init(ptr: UnsafeMutableRawPointer) {
         self.ptr = ptr
     }
 
-    public init() {
+    init() {
         ptr = T.vecOfSelfNew()
         isOwned = true
     }
 
-    public func push (value: T) {
+    func push (value: T) {
         T.vecOfSelfPush(vecPtr: ptr, value: value)
     }
 
-    public func pop () -> Optional<T> {
+    func pop () -> Optional<T> {
         T.vecOfSelfPop(vecPtr: ptr)
     }
 
-    public func get(index: UInt) -> Optional<T.SelfRef> {
+    func get(index: UInt) -> Optional<T.SelfRef> {
          T.vecOfSelfGet(vecPtr: ptr, index: index)
     }
 
-    public func as_ptr() -> UnsafePointer<T.SelfRef> {
+    func as_ptr() -> UnsafePointer<T.SelfRef> {
         UnsafePointer<T.SelfRef>(OpaquePointer(T.vecOfSelfAsPtr(vecPtr: ptr)))
     }
 
     /// Rust returns a UInt, but we cast to an Int because many Swift APIs such as
     /// `ForEach(0..rustVec.len())` expect Int.
-    public func len() -> Int {
+    func len() -> Int {
         Int(T.vecOfSelfLen(vecPtr: ptr))
     }
 
@@ -41,7 +41,7 @@ class RustVec<T: Vectorizable> {
 }
 
 extension RustVec: Sequence {
-    public func makeIterator() -> RustVecIterator<T> {
+    func makeIterator() -> RustVecIterator<T> {
         return RustVecIterator(self)
     }
 }
@@ -62,9 +62,9 @@ struct RustVecIterator<T: Vectorizable>: IteratorProtocol {
 }
 
 extension RustVec: Collection {
-    public typealias Index = Int
+    typealias Index = Int
 
-    public func index(after i: Int) -> Int {
+    func index(after i: Int) -> Int {
         i + 1
     }
 

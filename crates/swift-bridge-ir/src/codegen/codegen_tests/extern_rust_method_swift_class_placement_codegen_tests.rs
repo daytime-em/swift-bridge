@@ -36,10 +36,10 @@ mod extern_rust_method_swift_class_placement {
     fn expected_swift_code() -> ExpectedSwiftCode {
         ExpectedSwiftCode::ContainsAfterTrim(
             r#"
-public class SomeType: SomeTypeRefMut {
+class SomeType: SomeTypeRefMut {
     var isOwned: Bool = true
 
-    public override init(ptr: UnsafeMutableRawPointer) {
+    override init(ptr: UnsafeMutableRawPointer) {
         super.init(ptr: ptr)
     }
 
@@ -50,41 +50,41 @@ public class SomeType: SomeTypeRefMut {
     }
 }
 extension SomeType {
-    public func a() {
+    func a() {
         __swift_bridge__$SomeType$a({isOwned = false; return ptr;}())
     }
 
-    public func b() {
+    func b() {
         __swift_bridge__$SomeType$b({isOwned = false; return ptr;}())
     }
 }
-public class SomeTypeRefMut: SomeTypeRef {
-    public override init(ptr: UnsafeMutableRawPointer) {
+class SomeTypeRefMut: SomeTypeRef {
+    override init(ptr: UnsafeMutableRawPointer) {
         super.init(ptr: ptr)
     }
 }
 extension SomeTypeRefMut {
-    public func e() {
+    func e() {
         __swift_bridge__$SomeType$e(ptr)
     }
 
-    public func f() {
+    func f() {
         __swift_bridge__$SomeType$f(ptr)
     }
 }
-public class SomeTypeRef {
+class SomeTypeRef {
     var ptr: UnsafeMutableRawPointer
 
-    public init(ptr: UnsafeMutableRawPointer) {
+    init(ptr: UnsafeMutableRawPointer) {
         self.ptr = ptr
     }
 }
 extension SomeTypeRef {
-    public func c() {
+    func c() {
         __swift_bridge__$SomeType$c(ptr)
     }
 
-    public func d() {
+    func d() {
         __swift_bridge__$SomeType$d(ptr)
     }
 }

@@ -9,7 +9,7 @@ use syn::Path;
 ///
 /// We don't use Swift's `Result` type since when we tried we saw a strange error
 ///  `'Sendable' class 'ResultTestOpaqueRustType' cannot inherit from another class other than 'NSObject'`
-///  which meant that we could not use the `public class ResultTestOpaqueRustType: ResultTestOpaqueRustTypeRefMut {`
+///  which meant that we could not use the `class ResultTestOpaqueRustType: ResultTestOpaqueRustTypeRefMut {`
 ///  pattern that we use to prevent calling mutable methods on immutable references.
 ///  We only saw this error after `extension: ResultTestOpaqueRustType: Error {}` .. which was
 ///  necessary because Swift's Result type requires that the error implements the `Error` protocol.

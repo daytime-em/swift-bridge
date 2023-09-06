@@ -54,8 +54,8 @@ mod generates_struct_to_and_from_ffi_conversions_no_fields {
     fn expected_swift_code() -> ExpectedSwiftCode {
         ExpectedSwiftCode::ContainsAfterTrim(
             r#"
-public struct SomeStruct {
-    public init() {}
+struct SomeStruct {
+    init() {}
 
     @inline(__always)
     func intoFfiRepr() -> __swift_bridge__$SomeStruct {
@@ -152,7 +152,7 @@ mod generates_struct_to_and_from_ffi_conversions_with_fields {
 struct SomeStruct {
     public var field: UInt8
 
-    public init(field: UInt8) {
+    init(field: UInt8) {
         self.field = field
     }
 
@@ -239,7 +239,7 @@ mod struct_with_primitive_field {
 struct SomeStruct {
     public var field: UInt8
 
-    public init(field: UInt8) {
+    init(field: UInt8) {
         self.field = field
     }
 "#,
@@ -247,7 +247,7 @@ struct SomeStruct {
 struct AnotherStruct {
     public var _0: UInt8
 
-    public init(_0: UInt8) {
+    init(_0: UInt8) {
         self._0 = _0
     }
 "#,
