@@ -1,4 +1,4 @@
-public class RustString: RustStringRefMut {
+class RustString: RustStringRefMut {
     var isOwned: Bool = true
 
     public override init(ptr: UnsafeMutableRawPointer) {

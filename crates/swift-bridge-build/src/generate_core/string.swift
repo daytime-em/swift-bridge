@@ -31,11 +31,11 @@ extension RustStr: Equatable {
     }
 }
 
-public protocol IntoRustString {
+protocol IntoRustString {
     func intoRustString() -> RustString;
 }
 
-public protocol ToRustStr {
+protocol ToRustStr {
     func toRustStr<T> (_ withUnsafeRustStr: (RustStr) -> T) -> T;
 }
 
