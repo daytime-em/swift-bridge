@@ -4,10 +4,13 @@ THIS_DIR=$( cd "$(dirname "${BASH_SOURCE[0]}")" ; pwd -P )
 ROOT_DIR="$THIS_DIR"
 cd $ROOT_DIR
 
+#TODO: Why are the objects created in this case still public?
+
 cargo build --target x86_64-apple-darwin --target-dir "$(pwd)/target"
 cargo build --target aarch64-apple-darwin --target-dir "$(pwd)/target"
 
 mkdir -p "$(pwd)/target/universal/"
+
 
 lipo \
     $(pwd)/target/aarch64-apple-darwin/debug/libtest_swift_packages.a \
